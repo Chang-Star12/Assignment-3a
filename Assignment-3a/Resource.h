@@ -9,8 +9,12 @@
 #define IDR_MAINFRAME                   128
 #define IDC_EDIT_NAME                   1000
 #define IDC_EDIT_INFO                   1001
-#define IDC_BUTTON1                     1002
 #define IDC_BUTTON_ENLIST               1002
+#define IDC_LIST_INFO                   1004
+#define IDC_EDIT_NAME2                  1005
+#define IDC_EDIT_AGE2                   1006
+#define IDC_BUTTON_ADD                  1007
+#define IDC_BUTTON_DELETE               1008
 
 // Next default values for new objects
 // 
@@ -18,7 +22,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        129
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1004
+#define _APS_NEXT_CONTROL_VALUE         1009
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

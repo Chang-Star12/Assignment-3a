@@ -33,7 +33,11 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	CString m_strName;
-	afx_msg void OnBnClickedButton1();
 	afx_msg void OnBnClickedButtonEnlist();
 	CString m_strInfo;
+	CListCtrl m_List;
+	CString m_strName2;
+	CString m_strAge;
+	afx_msg void OnBnClickedButtonAdd();
+	afx_msg void OnBnClickedButtonDelete();
 };

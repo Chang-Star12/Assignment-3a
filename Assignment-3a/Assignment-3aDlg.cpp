@@ -54,6 +54,8 @@ CAssignment3aDlg::CAssignment3aDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_ASSIGNMENT3A_DIALOG, pParent)
 	, m_strName(_T(""))
 	, m_strInfo(_T(""))
+	, m_strName2(_T(""))
+	, m_strAge(_T(""))
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -63,6 +65,9 @@ void CAssignment3aDlg::DoDataExchange(CDataExchange* pDX)
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Text(pDX, IDC_EDIT_NAME, m_strName);
 	DDX_Text(pDX, IDC_EDIT_INFO, m_strInfo);
+	DDX_Control(pDX, IDC_LIST_INFO, m_List);
+	DDX_Text(pDX, IDC_EDIT_NAME2, m_strName2);
+	DDX_Text(pDX, IDC_EDIT_AGE2, m_strAge);
 }
 
 BEGIN_MESSAGE_MAP(CAssignment3aDlg, CDialogEx)
@@ -70,6 +75,8 @@ BEGIN_MESSAGE_MAP(CAssignment3aDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_BUTTON_ENLIST, &CAssignment3aDlg::OnBnClickedButtonEnlist)
+	ON_BN_CLICKED(IDC_BUTTON_ADD, &CAssignment3aDlg::OnBnClickedButtonAdd)
+	ON_BN_CLICKED(IDC_BUTTON_DELETE, &CAssignment3aDlg::OnBnClickedButtonDelete)
 END_MESSAGE_MAP()
 
 
@@ -105,6 +112,22 @@ BOOL CAssignment3aDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 작은 아이콘을 설정합니다.
 
 	// TODO: 여기에 추가 초기화 작업을 추가합니다.
+
+	// 리스트 컨트롤의 크기를 받아온다.
+	CRect rect;
+	m_List.GetClientRect(&rect);
+
+	// 리스트 컨트롤에 컬럼을 추가한다. 
+	// (첫 번째 인수: 인덱스, 
+	// 두 번째 인수: 제목, 
+	// 세 번째 인수: 정렬방식, 
+	// 네 번째 인수: 너비)
+	m_List.InsertColumn(0, _T("이름"), LVCFMT_LEFT, rect.Width() / 2);
+	m_List.InsertColumn(1, _T("나이"), LVCFMT_LEFT, rect.Width() / 2);
+
+	// 서브 항목으로 추가할 컬럼 추가
+	
+
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
@@ -169,5 +192,49 @@ void CAssignment3aDlg::OnBnClickedButtonEnlist()
 	m_strInfo.Append(_T("\r\n"));
 	m_strName.Empty();
 	UpdateData(FALSE); // 변수에서 대화 상자로 데이터 설정
+
+}
+
+
+
+void CAssignment3aDlg::OnBnClickedButtonAdd()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	UpdateData(TRUE); // 대화 상자에서 변수로 데이터 가져오기
+
+	int nItemNum = m_List.GetItemCount();
+
+	CString name = m_strName2;
+	if (name.IsEmpty())
+		return;
+	CString age = m_strAge;
+	if (age.IsEmpty())
+		return;
+	
+	// AddItem 함수는 첫 번째 열에만 값을 추가하므로, 두 번째 열 이후의 값은 SetItem 함수를 사용하여 설정해야 합니다.
+	m_List.InsertItem(nItemNum, m_strName2, rand()%5);
+	m_List.SetItemText(nItemNum, 1, m_strAge);
+
+	// 입력 후 입력란 초기화
+	m_strName2 = _T("");
+	m_strAge = _T("");
+
+	UpdateData(FALSE); // 변수에서 대화 상자로 데이터 설정
+}
+
+
+void CAssignment3aDlg::OnBnClickedButtonDelete()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	int count = m_List.GetItemCount(); //리스트 항목 개수 얻기
+
+	for (int i = count; i >= 0; i--) //역순으로 삭제해야 인덱스 오류가 안남
+	{
+		//LVIS_SELECTED : 선택된 항목
+		if (m_List.GetItemState(i, LVIS_SELECTED) == LVIS_SELECTED) //선택항목을 삭제
+		{
+			m_List.DeleteItem(i);
+		}
+	}
 
 }
