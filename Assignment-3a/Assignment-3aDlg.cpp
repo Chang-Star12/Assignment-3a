@@ -52,6 +52,8 @@ END_MESSAGE_MAP()
 
 CAssignment3aDlg::CAssignment3aDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_ASSIGNMENT3A_DIALOG, pParent)
+	, m_strName(_T(""))
+	, m_strInfo(_T(""))
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -59,12 +61,15 @@ CAssignment3aDlg::CAssignment3aDlg(CWnd* pParent /*=nullptr*/)
 void CAssignment3aDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Text(pDX, IDC_EDIT_NAME, m_strName);
+	DDX_Text(pDX, IDC_EDIT_INFO, m_strInfo);
 }
 
 BEGIN_MESSAGE_MAP(CAssignment3aDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_BN_CLICKED(IDC_BUTTON_ENLIST, &CAssignment3aDlg::OnBnClickedButtonEnlist)
 END_MESSAGE_MAP()
 
 
@@ -153,3 +158,16 @@ HCURSOR CAssignment3aDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+// "가입" 버튼을 클릭할 때 호출되는 함수
+void CAssignment3aDlg::OnBnClickedButtonEnlist()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	UpdateData(TRUE); // 대화 상자에서 변수로 데이터 가져오기
+	if (m_strName.IsEmpty())
+		return;
+	m_strInfo.Append(m_strName);
+	m_strInfo.Append(_T("\r\n"));
+	m_strName.Empty();
+	UpdateData(FALSE); // 변수에서 대화 상자로 데이터 설정
+
+}
